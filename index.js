@@ -1,7 +1,13 @@
 const express = require('express'); 
 const app = express();
-// const nodemon = require('nodemon');
 
 app.listen(3000, ()=>{
-    console.log('servidor rodando');
+    console.log('Server start');
+});
+
+
+app.get('/teste', (req, res) =>{
+    console.log('Resever request');
+    res.send('Tudo ok.')
+
 })
