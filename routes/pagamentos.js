@@ -10,7 +10,7 @@ router.post('/pagamento', (req, res) =>{
     let obj = req.body;
     console.log(obj);
 
-    return res.send(`Resever post ${obj.nome}`)
+    return res.send(`Resever pagamento`)
     
 
 })
