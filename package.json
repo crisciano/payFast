@@ -2,10 +2,10 @@
   "name": "payfast",
   "version": "1.0.0",
   "description": "gateway de pagamentos com nodejs",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/crisciano/payFast#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.4"
   },
   "devDependencies": {
