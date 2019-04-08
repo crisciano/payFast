@@ -6,4 +6,5 @@ Gateway de pagamento utilizando nodejs
     npm start
 ```
 
-ele pelo node carrega o nodemon para fica vendo se ha alterações.
+## bd
+sqlite3
