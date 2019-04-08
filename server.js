@@ -1,5 +1,6 @@
 const express = require('express'); 
 const app = express();
+const expressValidator = require('express-validator');
 const bodyParser = require('body-parser');
 
 const AppDAO = require('./dao');
@@ -23,7 +24,7 @@ const pagamentosRoutes = require('./routes/pagamentos');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-
+app.use(expressValidator());
 app.use('/', indexRoutes);
 app.use('/pagamentos', pagamentosRoutes);
 

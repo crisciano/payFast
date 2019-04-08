@@ -31,7 +31,6 @@ class AppDao {
             (forma_de_pagamento, valor, moeda, descricao, status, data)
             VALUES (?, ?, ?, ?, ?, ?)`, parms
         );
-
         return parms;
     }
 

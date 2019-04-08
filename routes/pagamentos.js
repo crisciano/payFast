@@ -25,6 +25,19 @@ router.get('/$id', (req,res) =>{
 })
 
 router.post('/pagamento', (req, res) =>{
+
+    req.assert("forma_de_pagamento", "Forma de pagamento e obrigatório.")
+        .notEmpty();
+    req.assert('valor', "valor obrigatorio e decimal")
+        .notEmpty().isFloat();
+
+    var err = req.validationErrors();
+    if(err){
+        console.log(err);
+        res.status(400).send(err);
+        return;
+    }
+
     let pagamento = req.body;
 
     pagamento.status = "criado";
@@ -33,9 +46,14 @@ router.post('/pagamento', (req, res) =>{
     pagamento = Object.values(pagamento);
 
     console.log(pagamento);
-    dao.InsertTable(table, pagamento);
+    dao.InsertTable(table, pagamento, (err, res)=>{
+        if(err) console.log(err);
+        console.log(res);
+    });
 
-    return res.send(`Resever pagamento`);
+    // res.location(`/pagamentos/pagamento/${resultado.insertId}`);
+
+    return res.status(201).send(`Created pagamento`);
 })
 
 // router.put('/pagamento', ())
