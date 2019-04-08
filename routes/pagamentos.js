@@ -45,15 +45,17 @@ router.post('/pagamento', (req, res) =>{
 
     pagamento = Object.values(pagamento);
 
-    console.log(pagamento);
-    dao.InsertTable(table, pagamento, (err, res)=>{
+    // console.log(pagamento);
+    dao.InsertTable(table, pagamento, (res)=>{
         if(err) console.log(err);
         console.log(res);
+        pagamento.id = res; 
     });
+    console.log(pagamento);
 
-    // res.location(`/pagamentos/pagamento/${resultado.insertId}`);
+    res.location(`/pagamentos/pagamento/${pagamento.id}`);
 
-    return res.status(201).send(`Created pagamento`);
+    return res.status(201).send(pagamento);
 })
 
 // router.put('/pagamento', ())

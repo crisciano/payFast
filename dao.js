@@ -14,7 +14,7 @@ class AppDao {
         const sql = `CREATE TABLE IF NOT EXISTS ${table} (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             forma_de_pagamento TEXT, 
-            valor TEXT, 
+            valor decimal(10,2), 
             moeda TEXT, 
             descricao TEXT,
             status TEXT,
@@ -25,13 +25,16 @@ class AppDao {
         return this.db.run(sql);
     }
 
-    InsertTable(table, parms = []){
+    InsertTable(table, parms = [], fn){
 
-        this.db.run(`INSERT INTO ${table} 
+        return this.db.run(`INSERT INTO ${table} 
             (forma_de_pagamento, valor, moeda, descricao, status, data)
-            VALUES (?, ?, ?, ?, ?, ?)`, parms
+            VALUES (?, ?, ?, ?, ?, ?)`, parms, function(err) {
+                if(err) return err.message;
+                fn(this.lastID);
+            }
         );
-        return parms;
+        // return parms;
     }
 
     
@@ -82,8 +85,6 @@ class AppDao {
         console.log('Close connection');
         this.db.close();
     }
-
-    
 }
 
 module.exports = AppDao;
