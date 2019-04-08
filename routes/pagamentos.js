@@ -37,6 +37,43 @@ router.put('/:id', (req,res) =>{
 })
 
 // route create
+// router.post('/pagamento', (req, res) =>{
+//     var id;
+
+//     req.assert("forma_de_pagamento", "Forma de pagamento e obrigatório.")
+//         .notEmpty();
+//     req.assert('valor', "valor obrigatorio e decimal")
+//         .notEmpty().isFloat();
+
+//     var err = req.validationErrors();
+//     if(err){
+//         console.log(err);
+//         res.status(400).send(err);
+//         return;
+//     }
+
+//     let pagamento = req.body;
+
+//     pagamento.status = "criado";
+//     pagamento.data = new Date;
+
+//     pagamento = Object.values(pagamento);
+
+//     // console.log(pagamento);
+//     dao.InsertTable(table, pagamento, (res)=>{
+//         if(err) console.log(err);
+//         console.log(res);
+//         // pagamento.id = res; 
+//         this.id = res;
+//         // return res;
+//     });
+//     pagamento.id = this.id; 
+//     console.log(pagamento);
+
+//     res.location(`/pagamentos/pagamento/${pagamento.id}`);
+
+//     return res.status(201).send(pagamento);
+// })
 router.post('/pagamento', (req, res) =>{
     var id;
 
@@ -59,18 +96,16 @@ router.post('/pagamento', (req, res) =>{
 
     pagamento = Object.values(pagamento);
 
+    dao.InsertTable(table, pagamento)
+        .then((response)=>{
+            response.id = this.id;
+            return res.json(response);
+        })
+    
+    // pagamento.id = this.id; 
     // console.log(pagamento);
-    dao.InsertTable(table, pagamento, (res)=>{
-        if(err) console.log(err);
-        console.log(res);
-        // pagamento.id = res; 
-        this.id = res;
-        // return res;
-    });
-    pagamento.id = this.id; 
-    console.log(pagamento);
 
-    res.location(`/pagamentos/pagamento/${pagamento.id}`);
+    // res.location(`/pagamentos/pagamento/${pagamento.id}`);
 
     return res.status(201).send(pagamento);
 })

@@ -25,16 +25,32 @@ class AppDao {
         return this.db.run(sql);
     }
 
+    // InsertTable(table, parms = [], fn){
+
+    //     return this.db.run(`INSERT INTO ${table} 
+    //         (forma_de_pagamento, valor, moeda, descricao, status, data)
+    //         VALUES (?, ?, ?, ?, ?, ?)`, parms, function(err) {
+    //             if(err) return err.message;
+    //             fn(this.lastID);
+    //         }
+    //     );
+    //     // return parms;
+    // }
     InsertTable(table, parms = [], fn){
 
-        return this.db.run(`INSERT INTO ${table} 
-            (forma_de_pagamento, valor, moeda, descricao, status, data)
-            VALUES (?, ?, ?, ?, ?, ?)`, parms, function(err) {
-                if(err) return err.message;
-                fn(this.lastID);
-            }
-        );
-        // return parms;
+        var sql = `INSERT INTO ${table} 
+        (forma_de_pagamento, valor, moeda, descricao, status, data)
+        VALUES (?, ?, ?, ?, ?, ?)`;
+
+        return new Promise((resolve, reject)=>{
+            
+            this.db.run(sql, parms, function(err) {
+                if(err) return reject(err);
+                // fn(this.lastID);
+                return resolve(this.lastID);
+            });
+
+        })
     }
 
     
