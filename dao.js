@@ -1,4 +1,5 @@
 const sqlite = require('sqlite3').verbose();
+const base = 'http://localhost:3000';
 
 class AppDao {
     
@@ -36,18 +37,30 @@ class AppDao {
     //     );
     //     // return parms;
     // }
-    InsertTable(table, parms = [], fn){
+    InsertTable(table, params = [], fn){
 
         var sql = `INSERT INTO ${table} 
         (forma_de_pagamento, valor, moeda, descricao, status, data)
         VALUES (?, ?, ?, ?, ?, ?)`;
 
-        return new Promise((resolve, reject)=>{
+        return new Promise( (resolve, reject) =>{
             
-            this.db.run(sql, parms, function(err) {
+            this.db.run(sql, params, function(err) {
                 if(err) return reject(err);
+                // params.id = this.lastID
                 // fn(this.lastID);
-                return resolve(this.lastID);
+                params.id = this.lastID;
+                
+                var response = {
+                    pagamento: params,
+                    links : [
+                        { href : `${base}/pagamentos/pagamento/${params.id}`, rel:'CONFIRMAR', method: 'PUT' },
+                        { href : `${base}/pagamentos/pagamento/${params.id}`, rel:'DELETE', method: 'DELETE' }
+                    ]
+                }
+                console.log(response);
+                
+                return resolve(response);
             });
 
         })
