@@ -29,6 +29,8 @@ class AppDao {
             (forma_de_pagamento, valor, moeda, descricao)
             VALUES (?, ?, ?, ?)`, parms
         );
+
+        return params;
     }
 
     ListTable(table){
@@ -39,13 +41,32 @@ class AppDao {
             if(err) console.log(err.message);
             console.log(row);
         });
+        this.CloseConnection();
     }
 
     DeletePagamento(table, ID){
+        console.log(`Delele ${table} id -> ${ID}`);
+
         this.db.run(`DELETE FROM ${table} WHERE id = ?`, [ID]);
+        return ID;
     }
 
-    // db.close();
+    PutPagamento(table, ID, params = []){
+        this.db.run(`UPDATE ${table} SET
+            forma_de_pagamento = ?, 
+            valor = ?, 
+            moeda = ?, 
+            descricao = ?
+        WHERE id = ${ID}`, params)
+
+        return params;
+    } 
+
+    CloseConnection(){
+        console.log('Close connection');
+        this.db.close();
+    }
+
     
 }
 
