@@ -7,8 +7,12 @@ router.get('/', (req, res) =>{
 })
 
 router.post('/pagamento', (req, res) =>{
-    let obj = req.body;
-    console.log(obj);
+    let pagamento = req.body;
+
+    pagamento.status = "criado1";
+    pagamento.data = new Date;
+    
+    console.log(pagamento);
 
     return res.send(`Resever pagamento`)
     
