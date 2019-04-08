@@ -16,7 +16,9 @@ class AppDao {
             forma_de_pagamento TEXT, 
             valor TEXT, 
             moeda TEXT, 
-            descricao TEXT)`;
+            descricao TEXT,
+            status TEXT,
+            data TEXT)`;
 
         console.log(`Create table -> ${table}`);
 
@@ -26,24 +28,39 @@ class AppDao {
     InsertTable(table, parms = []){
 
         this.db.run(`INSERT INTO ${table} 
-            (forma_de_pagamento, valor, moeda, descricao)
-            VALUES (?, ?, ?, ?)`, parms
+            (forma_de_pagamento, valor, moeda, descricao, status, data)
+            VALUES (?, ?, ?, ?, ?, ?)`, parms
         );
 
-        return params;
+        return parms;
     }
 
+    
     ListTable(table){
-
         console.log('List table');
         
-        this.db.each(`SELECT * FROM ${table}`, function(err, row) {
-            if(err) console.log(err.message);
-            console.log(row);
-        });
-        this.CloseConnection();
+        return new Promise((resolve, reject)=>{
+            this.db.all(`SELECT * FROM ${table}`, [], (err, rows)=>{
+                if(err) return reject(err);
+                return resolve(rows);
+            });
+        })
+        
+        
+        // await this.CloseConnection();
     }
 
+    ListPagamento(table, ID){
+        console.log('List table');
+        
+        return new Promise((resolve, reject)=>{
+            this.db.all(`SELECT * FROM ${table} WHERE id = ${ID}`, [], (err, rows)=>{
+                if(err) return reject(err);
+                return resolve(rows);
+            });
+        })
+    }
+    
     DeletePagamento(table, ID){
         console.log(`Delele ${table} id -> ${ID}`);
 
