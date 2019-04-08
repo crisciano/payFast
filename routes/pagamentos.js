@@ -8,6 +8,7 @@ const dao = new AppDAO(dbPath);
 
 const table = "pagamentos";
 
+// route all pagamentos
 router.get('/', (req, res) =>{
     dao.ListTable(table)
         .then((response)=>{
@@ -17,14 +18,27 @@ router.get('/', (req, res) =>{
     })
 })
 
-router.get('/$id', (req,res) =>{
-    dao.ListPagamento(table,`${id}`)
-        .then((res) =>{
-            return res.json(res)
-        });
+// route list pagamento
+router.get('/:id', (req,res) =>{
+    var id = req.params.id;
+    dao.ListPagamento(table, id)
+        .then((response) =>{
+            return res.json(response)
+        });    
 })
 
+// route alter status
+router.put('/:id', (req,res) =>{
+    var id = req.params.id;
+    dao.PutStatus(table, id)
+        .then((response) =>{
+            return res.json(response)
+        });    
+})
+
+// route create
 router.post('/pagamento', (req, res) =>{
+    var id;
 
     req.assert("forma_de_pagamento", "Forma de pagamento e obrigatório.")
         .notEmpty();
@@ -49,15 +63,16 @@ router.post('/pagamento', (req, res) =>{
     dao.InsertTable(table, pagamento, (res)=>{
         if(err) console.log(err);
         console.log(res);
-        pagamento.id = res; 
+        // pagamento.id = res; 
+        this.id = res;
+        // return res;
     });
+    pagamento.id = this.id; 
     console.log(pagamento);
 
     res.location(`/pagamentos/pagamento/${pagamento.id}`);
 
     return res.status(201).send(pagamento);
 })
-
-// router.put('/pagamento', ())
 
 module.exports = router;

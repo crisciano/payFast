@@ -39,7 +39,7 @@ class AppDao {
 
     
     ListTable(table){
-        console.log('List table');
+        console.log(`List table ${table}`);
         
         return new Promise((resolve, reject)=>{
             this.db.all(`SELECT * FROM ${table}`, [], (err, rows)=>{
@@ -47,27 +47,42 @@ class AppDao {
                 return resolve(rows);
             });
         })
-        
-        
-        // await this.CloseConnection();
     }
 
-    ListPagamento(table, ID){
-        console.log('List table');
-        
+    ListPagamento(table, id){
+        console.log(`List pagamento ${id}`);
+
+        var sql = `SELECT * FROM ${table} WHERE id = ?`;
+
         return new Promise((resolve, reject)=>{
-            this.db.all(`SELECT * FROM ${table} WHERE id = ${ID}`, [], (err, rows)=>{
+            this.db.get(sql, [id], function (err, row){
                 if(err) return reject(err);
-                return resolve(rows);
+                return resolve(row);
             });
         })
     }
     
-    DeletePagamento(table, ID){
-        console.log(`Delele ${table} id -> ${ID}`);
+    DeletePagamento(table, id){
+        console.log(`Delele ${table} id -> ${id}`);
 
-        this.db.run(`DELETE FROM ${table} WHERE id = ?`, [ID]);
-        return ID;
+        return new Promise((resolve, reject) =>{
+            this.db.run(`DELETE FROM ${table} WHERE id = ?`, [id], function(err){
+                if(err) return reject(err);
+                return resolve(id);
+            });
+        })
+    }
+
+    PutStatus(table, id){
+        var status = "CONFIRMADO";
+        var sql = `UPDATE ${table} SET status = ? where id = ?`; 
+
+        return new Promise((resolve, reject)=>{
+            this.db.run(sql, [status, id], function(err) {
+                    if(err) return reject(err)
+                    return resolve(status);
+                });
+        })
     }
 
     PutPagamento(table, ID, params = []){
