@@ -8,14 +8,14 @@ const dao = new AppDAO(dbPath);
 
 const table = "pagamentos";
 
-// route all pagamentos
-router.get('/', (req, res) =>{
-    dao.ListTable(table)
+// router delete pagamento
+router.delete('/:id', (req, res)=> {
+    var id = req.params.id;
+    dao.DeletePagamento(table, id)
         .then((response)=>{
             console.log(response);
-            // return res.send(response);
             return res.json(response);
-    })
+        })
 })
 
 // route list pagamento
@@ -73,6 +73,16 @@ router.post('/pagamento', (req, res) =>{
     res.location(`/pagamentos/pagamento/${pagamento.id}`);
 
     return res.status(201).send(pagamento);
+})
+
+// route all pagamentos
+router.get('/', (req, res) =>{
+    dao.ListTable(table)
+        .then((response)=>{
+            console.log(response);
+            // return res.send(response);
+            return res.json(response);
+    })
 })
 
 module.exports = router;
