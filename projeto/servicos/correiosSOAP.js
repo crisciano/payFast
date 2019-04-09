@@ -1,19 +1,23 @@
 const soap = require('soap');
 
-const serverSoapCorreio = "http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx?wsdl";
+// const serverSoapCorreio = "http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx?wsdl";
 
-class SOAP{
-    constructor(info){
-        soap.createClient(serverSoapCorreio, (err, cliente)=> {
-            if(err) console.log(err);
-            console.log('client soap created');
-        
-            cliente.CalcPrazo(info, (err, res)=> { 
-                    if(err) console.log(err);        
-                    console.log( JSON.stringify(res)); 
-                })
-        });
+class Soap{
+
+    constructor(){
+        this._serverSoapCorreio = "http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx?wsdl";
     }
+    
+    calculaPrazo(info, callback){
+        
+        soap.createClient(this._serverSoapCorreio, (err, cliente)=> {
+            if(err) console.log(err);
+            console.log('query soap');
+            cliente.CalcPrazo(info, callback)
+        });
+
+    }
+
 }
 
-module.exports = SOAP
+module.exports = Soap
