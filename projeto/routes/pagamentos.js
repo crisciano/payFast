@@ -59,7 +59,13 @@ router.post('/pagamento', (req, res) =>{
             .notEmpty();
 
         let cartao = req.body["cartao"];
-        cliente.autoriza(cartao, (res)=> console.log(res) );
+        cliente.autoriza(cartao, (res)=>{  
+            console.log('callback cartao');
+
+            pagamento.cartao = res;
+            
+            // console.log(res)
+        });
     }
 
     var err = req.validationErrors();
