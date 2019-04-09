@@ -45,7 +45,6 @@ class AppDao {
                         { href : `${base}/pagamentos/pagamento/${params.id}`, rel:'DELETE', method: 'DELETE' }
                     ]
                 }
-                console.log(response);
                 return resolve(response);
             });
 

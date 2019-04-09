@@ -13,16 +13,16 @@ const pagamento = ["payfast","10.95","BRL", "update 2 um pagamento", "criado", "
 
 dao.CreateTable(table);
 // dao.InsertTable(table, pagamento);
-// dao.DeletePagamento(table, 32);
-// dao.DeletePagamento(table, 33);
-// dao.DeletePagamento(table, 34);
-// dao.DeletePagamento(table, 35);
-// dao.DeletePagamento(table, 26);
-// dao.DeletePagamento(table, 27);
-// dao.DeletePagamento(table, 28);
-// dao.DeletePagamento(table, 29);
-// dao.DeletePagamento(table, 30);
-// dao.DeletePagamento(table, 31);
+// dao.DeletePagamento(table, 47);
+// dao.DeletePagamento(table, 48);
+// dao.DeletePagamento(table, 49);
+// dao.DeletePagamento(table, 50);
+// dao.DeletePagamento(table, 51);
+// dao.DeletePagamento(table, 52);
+// dao.DeletePagamento(table, 43);
+// dao.DeletePagamento(table, 44);
+// dao.DeletePagamento(table, 45);
+// dao.DeletePagamento(table, 46);
 
 // dao.PutPagamento(table, 1, pagamento);
 // dao.ListTable(table);

@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 const AppDAO = require('../dao');
+const ClientRest = require('../servicos/clienteCartoes');
+
+const cliente = new ClientRest();
 
 const dbPath = './db/database.sqlite3.db';
 const dao = new AppDAO(dbPath);
@@ -40,10 +43,24 @@ router.put('/:id', (req,res) =>{
 // route create
 router.post('/pagamento', (req, res) =>{
 
-    req.assert("forma_de_pagamento", "Forma de pagamento e obrigatório.")
+    console.log('pagamento recebido');
+    
+    let pagamento = req.body["pagamento"];
+    console.log(pagamento);
+    
+    req.assert("pagamento.forma_de_pagamento", "Forma de pagamento e obrigatório.")
         .notEmpty();
-    req.assert('valor', "valor obrigatorio e decimal")
+    req.assert('pagamento.valor', "valor obrigatorio e decimal")
         .notEmpty().isFloat();
+
+        
+    if(pagamento.forma_de_pagamento == "cartao"){
+        req.assert('cartao', 'Campo Cartão é obrigatório.')
+            .notEmpty();
+
+        let cartao = req.body["cartao"];
+        cliente.autoriza(cartao, (res)=> console.log(res) );
+    }
 
     var err = req.validationErrors();
     if(err){
@@ -52,8 +69,6 @@ router.post('/pagamento', (req, res) =>{
         return;
     }
 
-    let pagamento = req.body;
-
     pagamento.status = "criado";
     pagamento.data = new Date;
 
@@ -61,6 +76,8 @@ router.post('/pagamento', (req, res) =>{
 
     dao.InsertTable(table, pagamento)
         .then((response)=>{
+            console.log(response);
+            
             return res.status(201).json(response);
         })
         .catch( (err) => console.log(err) )
@@ -75,5 +92,19 @@ router.get('/', (req, res) =>{
         })
         .catch((err) => console.log(err))
 })
+
+// function ValidaPagamento(req){
+//     req.assert("forma_de_pagamento", "Forma de pagamento e obrigatório.")
+//         .notEmpty();
+//     req.assert('valor', "valor obrigatorio e decimal")
+//         .notEmpty().isFloat();
+
+//     var err = req.validationErrors();
+//     if(err){
+//         console.log(err);
+//         res.status(400).send(err);
+//         return;
+//     }
+// }
 
 module.exports = router;

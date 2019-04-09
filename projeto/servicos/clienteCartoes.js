@@ -8,11 +8,22 @@ var cartao = {
 	"cvv": 123
 };
 
-var cliente = restify.createJsonClient({
-    url: serverCartaoUrl
-})
+class ClientRest{
 
-cliente.post('/cartoes/autoriza', cartao ,(err, req, res, retorno)=> {
-    console.log('consumindo api');
-    console.log(retorno);
-})
+    constructor(){
+        this.cliente = restify.createJsonClient({
+            url: serverCartaoUrl
+        })
+    }
+
+    autoriza(cartao, fn){
+        this.cliente.post('/cartoes/autoriza', cartao ,(err, req, res, retorno)=> {
+            console.log('consumindo api');
+            console.log(retorno);
+            fn(retorno);
+        })
+    }
+
+}
+
+module.exports = ClientRest;
