@@ -30,6 +30,7 @@ dao.CreateTable(table);
 /** routes */
 const indexRoutes = require('./routes/index');
 const pagamentosRoutes = require('./routes/pagamentos');
+const correiosRoutes = require('./routes/correios');
 
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -37,6 +38,7 @@ app.use(bodyParser.json());
 app.use(expressValidator());
 app.use('/', indexRoutes);
 app.use('/pagamentos', pagamentosRoutes);
+app.use('/correios', correiosRoutes);
 
 app.listen(3000, ()=>{
     console.log('Server start');
