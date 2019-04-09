@@ -1,7 +1,5 @@
 const soap = require('soap');
 
-// const serverSoapCorreio = "http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx?wsdl";
-
 class Soap{
 
     constructor(){
@@ -15,9 +13,7 @@ class Soap{
             console.log('query soap');
             cliente.CalcPrazo(info, callback)
         });
-
     }
-
 }
 
 module.exports = Soap
