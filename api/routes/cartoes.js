@@ -30,4 +30,4 @@ router.post("/autoriza",function(req, res) {
     return;
 });
 
-module.exports = router
+module.exports = router;
