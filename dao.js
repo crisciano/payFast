@@ -26,18 +26,7 @@ class AppDao {
         return this.db.run(sql);
     }
 
-    // InsertTable(table, parms = [], fn){
-
-    //     return this.db.run(`INSERT INTO ${table} 
-    //         (forma_de_pagamento, valor, moeda, descricao, status, data)
-    //         VALUES (?, ?, ?, ?, ?, ?)`, parms, function(err) {
-    //             if(err) return err.message;
-    //             fn(this.lastID);
-    //         }
-    //     );
-    //     // return parms;
-    // }
-    InsertTable(table, params = [], fn){
+    InsertTable(table, params = []){
 
         var sql = `INSERT INTO ${table} 
         (forma_de_pagamento, valor, moeda, descricao, status, data)
@@ -47,8 +36,6 @@ class AppDao {
             
             this.db.run(sql, params, function(err) {
                 if(err) return reject(err);
-                // params.id = this.lastID
-                // fn(this.lastID);
                 params.id = this.lastID;
 
                 var response = {
@@ -64,7 +51,6 @@ class AppDao {
 
         })
     }
-
     
     ListTable(table){
         console.log(`List table ${table}`);
