@@ -39,7 +39,6 @@ router.put('/:id', (req,res) =>{
 
 // route create
 router.post('/pagamento', (req, res) =>{
-    var id;
 
     req.assert("forma_de_pagamento", "Forma de pagamento e obrigatório.")
         .notEmpty();
@@ -62,7 +61,6 @@ router.post('/pagamento', (req, res) =>{
 
     dao.InsertTable(table, pagamento)
         .then((response)=>{
-            response.id = this.id;
             return res.status(201).json(response);
         })
         .catch( (err) => console.log(err) )

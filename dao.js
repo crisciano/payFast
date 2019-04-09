@@ -58,10 +58,7 @@ class AppDao {
                         { href : `${base}/pagamentos/pagamento/${params.id}`, rel:'DELETE', method: 'DELETE' }
                     ]
                 }
-                // response.statusCode = 201;
-                // response.setHeader('Content-Type', 'application/json')
                 console.log(response);
-                
                 return resolve(response);
             });
 
