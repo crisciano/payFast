@@ -50,7 +50,7 @@ class AppDao {
                 // params.id = this.lastID
                 // fn(this.lastID);
                 params.id = this.lastID;
-                
+
                 var response = {
                     pagamento: params,
                     links : [
@@ -58,6 +58,8 @@ class AppDao {
                         { href : `${base}/pagamentos/pagamento/${params.id}`, rel:'DELETE', method: 'DELETE' }
                     ]
                 }
+                // response.statusCode = 201;
+                // response.setHeader('Content-Type', 'application/json')
                 console.log(response);
                 
                 return resolve(response);
