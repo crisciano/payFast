@@ -4,9 +4,11 @@ const router = express.Router();
 const AppDAO = require('../dao');
 const ClientRest = require('../servicos/clienteCartoes');
 const ClientMemcached = require('../servicos/memcachedClient');
+const Logger = require('../servicos/loggers');
 
 const ClienteCartao = new ClientRest();
 const ClientCache = new ClientMemcached(); 
+// const Logger = new LoggerFile();
 
 const dbPath = './db/database.sqlite3.db';
 const dao = new AppDAO(dbPath);
@@ -120,6 +122,7 @@ router.post('/pagamento', (req, res) =>{
 router.get('/', (req, res) =>{
     dao.ListTable(table)
         .then((response)=>{
+            Logger.info('Requeste all paypers.');
             console.log(response);
             return res.json(response);
         })
