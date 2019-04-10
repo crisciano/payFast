@@ -12,6 +12,10 @@ const dao = new AppDAO(dbPath);
 const table = "pagamentos";
 
 dao.CreateTable(table);
+// dao.InsertTable(table, pagamento);
+// dao.DeletePagamento(table, 47);
+// dao.PutPagamento(table, 1, pagamento);
+// dao.ListTable(table);
 
 // router delete pagamento
 router.delete('/:id', (req, res)=> {
