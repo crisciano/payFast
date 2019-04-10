@@ -17,3 +17,16 @@ Roda na porta 3000
 
 Recebe dados do cartão.
 Roda na porta 3001
+
+## Memcached 
+
+Iniciando o memcached for windows,
+ir até a pasta util/memcached e no CMD
+utilizar o comando.
+
+```
+    memcached.exe inicio --vv
+```
+
+Utiliza o parametro --vv 
+para ter a saida verbosa de segundo nivel.
