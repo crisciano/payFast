@@ -30,3 +30,8 @@ utilizar o comando.
 
 Utiliza o parametro --vv 
 para ter a saida verbosa de segundo nivel.
+
+## Kill process cluter teste
+```
+    TaskKill /PID <number-process> /F
+```
