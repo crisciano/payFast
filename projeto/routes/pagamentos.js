@@ -11,6 +11,8 @@ const dao = new AppDAO(dbPath);
 
 const table = "pagamentos";
 
+dao.CreateTable(table);
+
 // router delete pagamento
 router.delete('/:id', (req, res)=> {
     var id = req.params.id;
