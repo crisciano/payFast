@@ -8,7 +8,7 @@ const indexRoutes = require('./routes/index');
 const pagamentosRoutes = require('./routes/pagamentos');
 const correiosRoutes = require('./routes/correios');
 
-
+/** express use */
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(expressValidator());

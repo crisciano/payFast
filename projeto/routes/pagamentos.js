@@ -105,18 +105,4 @@ router.get('/', (req, res) =>{
         .catch((err) => console.log(err))
 })
 
-// function ValidaPagamento(req){
-//     req.assert("forma_de_pagamento", "Forma de pagamento e obrigatório.")
-//         .notEmpty();
-//     req.assert('valor', "valor obrigatorio e decimal")
-//         .notEmpty().isFloat();
-
-//     var err = req.validationErrors();
-//     if(err){
-//         console.log(err);
-//         res.status(400).send(err);
-//         return;
-//     }
-// }
-
 module.exports = router;
