@@ -34,24 +34,25 @@ router.delete('/:id', (req, res)=> {
 router.get('/:id', (req,res) =>{
     var id = req.params.id;
 
-    ClientCache.memcachedGet(id, (error, response)=> {
+    ClientCache.memcachedGet(`pagamento-${id}`, (error, response)=> {
         if(error || !response){
             if(error) console.log(error);
             if(!response) console.log('Response cache not found');
-            return;
+            // return;
+            dao.ListPagamento(table, id)
+                .then((response) =>{
+                    console.log('return sgbd');
+                    console.log(response);
+                    return res.json(response)
+                });  
+            return;  
         } 
         console.log('return cache');
         
         console.log(response);
-        // return res.json(response);
+        return res.json(response);
     });
 
-    dao.ListPagamento(table, id)
-        .then((response) =>{
-            console.log('response get sgbd');
-            console.log(response);
-            return res.json(response)
-        });    
 })
 
 // route alter status
@@ -106,7 +107,7 @@ router.post('/pagamento', (req, res) =>{
         .then((response)=>{
             console.log('Insert sgbd');
             console.log(response);
-            ClientCache.memcachedSet(response.pagamento.id, response, (err, res)=>{
+            ClientCache.memcachedSet(`pagamento-${response.pagamento.id}`, response, (err, res)=>{
                 if(err) console.log(err);
                 console.log('pagamento insert in cache');
             })
