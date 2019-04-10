@@ -3,11 +3,14 @@ const router = express.Router();
 
 const AppDAO = require('../dao');
 const ClientRest = require('../servicos/clienteCartoes');
+const ClientMemcached = require('../servicos/memcachedClient');
 
-const cliente = new ClientRest();
+const ClienteCartao = new ClientRest();
+const ClientCache = new ClientMemcached(); 
 
 const dbPath = './db/database.sqlite3.db';
 const dao = new AppDAO(dbPath);
+
 
 const table = "pagamentos";
 
@@ -30,8 +33,23 @@ router.delete('/:id', (req, res)=> {
 // route list pagamento
 router.get('/:id', (req,res) =>{
     var id = req.params.id;
+
+    ClientCache.memcachedGet(id, (error, response)=> {
+        if(error || !response){
+            if(error) console.log(error);
+            if(!response) console.log('Response cache not found');
+            return;
+        } 
+        console.log('return cache');
+        
+        console.log(response);
+        // return res.json(response);
+    });
+
     dao.ListPagamento(table, id)
         .then((response) =>{
+            console.log('response get sgbd');
+            console.log(response);
             return res.json(response)
         });    
 })
@@ -65,12 +83,10 @@ router.post('/pagamento', (req, res) =>{
             .notEmpty();
 
         let cartao = req.body["cartao"];
-        cliente.autoriza(cartao, (res)=>{  
+        ClienteCartao.autoriza(cartao, (res)=>{  
             console.log('callback cartao');
 
             pagamento.cartao = res;
-            
-            // console.log(res)
         });
     }
 
@@ -88,8 +104,12 @@ router.post('/pagamento', (req, res) =>{
 
     dao.InsertTable(table, pagamento)
         .then((response)=>{
+            console.log('Insert sgbd');
             console.log(response);
-            
+            ClientCache.memcachedSet(response.pagamento.id, response, (err, res)=>{
+                if(err) console.log(err);
+                console.log('pagamento insert in cache');
+            })
             return res.status(201).json(response);
         })
         .catch( (err) => console.log(err) )
